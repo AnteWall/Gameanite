@@ -1,0 +1,18 @@
+extends layout
+
+block content
+    .dark-bg
+        .container
+            #lobby
+                h1 Gameanite
+                hr
+                .col-md-3
+                    form(class="create-game-form",role="form")
+                        .form-group
+                            label(for="gameName") Game Name
+                            input(type="text", name="gameName", class="gameName form-control",required="required")            
+                        .form-group
+                            label(for="gameUpload") Upload Gamefile
+                            input(type="file", name="gameUpload", class="gameUpload form-control", required="required")      
+                        button(type="submit", class="btn btn-primary create-game-btn") Create Game
+    .gameanite-wrapper
