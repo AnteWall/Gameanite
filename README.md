@@ -12,7 +12,21 @@ Gameanight creates a gameboard using your custom JSON file, creates a gameroom w
 Version
 ----
 
-0.1
+###0.1
+
+
+Changelog
+-----------
+#####0.1:
+  - Started working on Gameanite Class
+
+
+
+TODO
+----------
+  - Add Socket.IO
+  - Complete Basic Game Class
+  - Start on Android App
 
 Tech
 -----------
