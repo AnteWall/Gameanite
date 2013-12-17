@@ -51,9 +51,19 @@ a {
 
 }
 .game-field-table td{
-	height: 40px;
-	width: 40px;
+	height: 38px;
+	width: 38px;
 	border: 1px solid #000;
-	background-color: #202002;
+	background-color: #505050;
 	display: inline-block;
+}
+.player{
+	position: fixed;
+	top: 0;
+	left: 0;
+	background: black;
+	width: 20px;
+	height: 20px;
+	-webkit-border-radius: 25px;
+	border-radius: 25px;
 }

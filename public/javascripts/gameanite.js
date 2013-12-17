@@ -32,6 +32,21 @@ $(function() {
 		reader.readAsText(file);
 	}
 
+	/**
+	*	Create Player 
+	*
+	*	@param {string} name - Name of Player
+	*	@param {int} x - StartPosition x-axis
+	*	@param {int} y - StartPosition y-axis
+	*   @return {Player} - Returns Player Created
+	*/
+	function Player(name,x,y){
+		this.name = name;
+		this.posX = x;
+		this.posY = y;
+		return this;
+	}
+
 	function Gameanite(){
 		this.GAME_DIV = $('.gameanite-wrapper');		
 		this.PLAYERS = [];
@@ -47,10 +62,8 @@ $(function() {
 	}
 	Gameanite.prototype.CreateGameField = function(){
 
-
 		var $table = $('<table>',{class:"game-field-table"});
-		console.log(GAME_ROWS);
-		console.log(GAME_COLUMS);
+
 		for(var y = 0; y <= GAME_ROWS; y++){
 			var $tr = $('<tr>');
 
@@ -63,11 +76,21 @@ $(function() {
 
 		this.GAME_DIV.prepend($table);
 
+		this.PLAYERS.push(new Player("Ante",this.START_X,this.START_Y));
+		this.DrawPlayers();
+
 		$('.dark-bg').fadeOut(1000,function(){
 			this.remove();
+			
 		})
 
 	}
+
+	/**
+	*	Set Game Variables from JSON file
+	*	
+	*	@param {File} jsonFile - File with JSON data in it
+	*/
 	Gameanite.prototype.ParseJSON = function(jsonFile) {
 
 		var json = $.parseJSON(jsonFile.currentTarget.result);
@@ -76,10 +99,42 @@ $(function() {
 		GAME_COLUMS = g["Info"]["GAME_COLUMS"];
 		START_X = g["Info"]["START_X"];
 		START_Y = g["Info"]["START_Y"];
-		console.log(this);
 		this.CreateGameField();
 
 	};
+
+
+
+	/**
+	*	Calculate position of player
+	*	
+	*	@param {Player} player - PlayerClass
+	*	@returns {json} - JSON with height and width
+	*/
+	Gameanite.prototype.calculatePlayerPos = function(player){
+		console.log(player);
+		var width = ( player.posX * this.CELL_W ) + (this.PLAYER_W / 2);
+		var height = ( player.posY * this.CELL_H ) + (this.PLAYER_H / 2);
+
+		return { "height": height, "width": width };
+	}
+
+	/**
+	*	Draw Player from startposition
+	*/
+	Gameanite.prototype.DrawPlayers = function(){
+		for(var i = 0; i <= this.PLAYERS.length; i++){
+			var positions = this.calculatePlayerPos(this.PLAYERS[i]);
+
+			var $pDiv = $('<div>',{"class":"player","data-playerName":this.PLAYERS[i].name});
+
+			$pDiv.css("top",positions.height + "px");
+			$pDiv.css("left",positions.width + "px");
+
+			$pDiv.appendTo(this.GAME_DIV);
+		}
+	}
+
 
 
 });

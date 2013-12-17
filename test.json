@@ -2,7 +2,7 @@
 	"Gameanite":{
 		"Info":{
 			"GAME_ROWS": 10,
-			"GAME_COLUMS": 40,
+			"GAME_COLUMS": 10,
 			"START_X": 4,
 			"START_Y": 4
 		}
