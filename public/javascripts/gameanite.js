@@ -15,7 +15,7 @@
 
 $(function() {
 
-	var game = null;
+	var game = new Gameanite();
 	$('.create-game-form').submit(function(e){
 		e.preventDefault();
 
@@ -23,7 +23,6 @@ $(function() {
 	});
 
 	function ReadFile(){
-		game = new Gameanite();
 		var file = $('.gameUpload').prop('files')[0];
 		var reader = new FileReader();
 		reader.onload = function(r){
@@ -44,6 +43,7 @@ $(function() {
 		this.name = name;
 		this.posX = x;
 		this.posY = y;
+		this.moves;
 		return this;
 	}
 
@@ -59,31 +59,50 @@ $(function() {
 		this.PLAYER_GROUPS = [];
 		this.GAME_ROWS = 0;
 		this.GAME_COLUMS = 0;
+		this.CARDS = [];
+	}
+	function Card(pX,pY,Desc,Title,nX,nY,func){
+		this.posX = pX;
+		this.posY = pY;
+		this.Description = Desc;
+		this.Title = Title;
+		this.nextX = nX;
+		this.nextY = nY;
+		this.function = func
 	}
 	Gameanite.prototype.CreateGameField = function(){
 
 		var $table = $('<table>',{class:"game-field-table"});
 
-		for(var y = 0; y <= GAME_ROWS; y++){
+		for(var y = 0; y < GAME_ROWS; y++){
 			var $tr = $('<tr>');
-
-			for(var x = 0; x <= GAME_COLUMS; x++){
+			for(var x = 0; x < GAME_COLUMS; x++){
 				var $td = $('<td>',{"id":"x"+x+"y"+y});
 				$td.appendTo($tr);
 			}
 			$tr.appendTo($table);
 		}
-
+		console.log(this.CARDS);
 		this.GAME_DIV.prepend($table);
 
 		this.PLAYERS.push(new Player("Ante",this.START_X,this.START_Y));
+		this.PLAYERS.push(new Player("Anton",this.START_X,this.START_Y));
+
 		this.DrawPlayers();
 
 		$('.dark-bg').fadeOut(1000,function(){
 			this.remove();
 			
 		})
+	}
 
+	Gameanite.prototype.ParseCards = function(json){
+		var pThis = this;
+		$.each(json,function(){			
+			var c = new Card(this.POSX,this.POSY,this.Description,this.Title,this.NEXTX,this.NEXTY,this.FUNCTION);
+			pThis.CARDS[(this.POSY)][this.POSX] = c;
+		})
+		console.log(this.CARDS);
 	}
 
 	/**
@@ -97,24 +116,30 @@ $(function() {
 		var g = json["Gameanite"];
 		GAME_ROWS = g["Info"]["GAME_ROWS"];
 		GAME_COLUMS = g["Info"]["GAME_COLUMS"];
-		START_X = g["Info"]["START_X"];
-		START_Y = g["Info"]["START_Y"];
+		this.START_X = g["Info"]["START_X"];
+		this.START_Y = g["Info"]["START_Y"];
+		this.CreateCardHolder();
+		this.ParseCards(g["Cards"]);
 		this.CreateGameField();
 
 	};
-
-
-
+	Gameanite.prototype.CreateCardHolder = function(){
+		for(var y = 0; y < GAME_ROWS; y++){
+			this.CARDS[y] = [];
+			for(var x = 0; x < GAME_COLUMS; x++){
+				this.CARDS[y][x] = null;
+			}
+		}
+	}
 	/**
 	*	Calculate position of player
 	*	
 	*	@param {Player} player - PlayerClass
 	*	@returns {json} - JSON with height and width
 	*/
-	Gameanite.prototype.calculatePlayerPos = function(player){
-		console.log(player);
-		var width = ( player.posX * this.CELL_W ) + (this.PLAYER_W / 2);
-		var height = ( player.posY * this.CELL_H ) + (this.PLAYER_H / 2);
+	Gameanite.prototype.CalculatePosition = function(x,y){
+		var width = ( x * this.CELL_W ) + (this.CELL_W/2) - (this.PLAYER_W / 2);
+		var height = ( y * this.CELL_H ) + (this.CELL_H/2) - (this.PLAYER_H / 2);
 
 		return { "height": height, "width": width };
 	}
@@ -123,18 +148,28 @@ $(function() {
 	*	Draw Player from startposition
 	*/
 	Gameanite.prototype.DrawPlayers = function(){
-		for(var i = 0; i <= this.PLAYERS.length; i++){
-			var positions = this.calculatePlayerPos(this.PLAYERS[i]);
+		for(var i = 0; i < this.PLAYERS.length; i++){
+			var positions = this.CalculatePosition(this.PLAYERS[i].posX,this.PLAYERS[i].posY);
 
-			var $pDiv = $('<div>',{"class":"player","data-playerName":this.PLAYERS[i].name});
+			var $pDiv = $('<div>',{"class":"player","data-playername":this.PLAYERS[i].name});
 
 			$pDiv.css("top",positions.height + "px");
 			$pDiv.css("left",positions.width + "px");
 
 			$pDiv.appendTo(this.GAME_DIV);
 		}
+
+		this.AnimateWalk(this.PLAYERS[0],8,8);
 	}
 
+	Gameanite.prototype.AnimateWalk = function(player,newX,newY){
 
+			player.posX = newX;
+			player.posY = newY;
+			var pos = this.CalculatePosition(player.posX,player.posY);
+			this.GAME_DIV.find("[data-playername='" + player.name + "']").animate({"top":pos.height+"pX","left":pos.width+"px"},function(){
+				
+			});
+	}
 
 });
