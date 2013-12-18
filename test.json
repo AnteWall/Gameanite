@@ -3,8 +3,8 @@
 		"Info":{
 			"GAME_ROWS": 10,
 			"GAME_COLUMS": 10,
-			"START_X": 4,
-			"START_Y": 4
+			"START_X": 2,
+			"START_Y": 2
 		},
 		"Cards":[
 			{
@@ -13,7 +13,16 @@
 				"POSX": 2,
 				"POSY": 2,
 				"NEXTX": 3,
-				"NEXTY": 4,
+				"NEXTY": 2,
+				"FUNCTION": "function(){ alert('Funkar deT?');}" 
+			},
+			{
+				"Title": "Jobba HG",
+				"Description": "3 Klunkar",
+				"POSX": 3,
+				"POSY": 2,
+				"NEXTX": 4,
+				"NEXTY": 2,
 				"FUNCTION": "function(){ alert('Funkar deT?');}" 
 			}
 		]

@@ -70,3 +70,26 @@ table{
 	-webkit-border-radius: 25px;
 	border-radius: 25px;
 }
+.card{
+	margin: 100px auto;
+	width: 250px;
+	height: 350px;
+	background: white;
+	-webkit-border-radius: 5px;
+	border-radius: 5px;
+
+}
+.card p.title{
+	-webkit-border-radius: 5px 5px 0 0;
+	border-radius: 5px 5px 0 0;
+
+	font-weight: bold;
+	text-align: center;
+	padding: 10px;
+	background: #cfcfcf;	
+}
+.card p.desc{
+	min-height: 255px;
+	max-height: 255px;
+	padding: 10px;
+}

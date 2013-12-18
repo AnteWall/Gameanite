@@ -22,6 +22,10 @@ $(function() {
 		ReadFile();
 	});
 
+	$('.MOVE').on('click',function(){
+		game.SetMovingDistance(1);
+	});
+
 	function ReadFile(){
 		var file = $('.gameUpload').prop('files')[0];
 		var reader = new FileReader();
@@ -60,6 +64,7 @@ $(function() {
 		this.GAME_ROWS = 0;
 		this.GAME_COLUMS = 0;
 		this.CARDS = [];
+		this.CURRENTPLAYER = 0;
 	}
 	function Card(pX,pY,Desc,Title,nX,nY,func){
 		this.posX = pX;
@@ -86,7 +91,6 @@ $(function() {
 		this.GAME_DIV.prepend($table);
 
 		this.PLAYERS.push(new Player("Ante",this.START_X,this.START_Y));
-		this.PLAYERS.push(new Player("Anton",this.START_X,this.START_Y));
 
 		this.DrawPlayers();
 
@@ -102,7 +106,36 @@ $(function() {
 			var c = new Card(this.POSX,this.POSY,this.Description,this.Title,this.NEXTX,this.NEXTY,this.FUNCTION);
 			pThis.CARDS[(this.POSY)][this.POSX] = c;
 		})
-		console.log(this.CARDS);
+	}
+
+	Gameanite.prototype.ShowCard = function(x,y){
+		var card = this.CARDS[y][x];
+
+		$darkBG = $('<div>',{class:"dark-bg"});
+		$card = $('<div>',{class:"card"});
+
+		$title = $('<p>',{class:"title"}).text(card.Title);
+		$desc = $('<p>',{class:"desc"}).text(card.Description);
+
+		$closeBtn = $('<button>',{class:"btn btn-danger btn-block close-btn-card"}).text("Close");
+
+		$closeBtn.on('click',function(){
+			$('.card').fadeOut(300,function(){
+				$('.dark-bg').remove();
+			})
+		});
+
+		$title.appendTo($card);
+		$desc.appendTo($card);
+		$closeBtn.appendTo($card);
+
+		$card.appendTo($darkBG);
+		$darkBG.appendTo(this.GAME_DIV);
+		console.log(card.function);
+		if(card.function != undefined){
+			var f = eval("(" + card.function + ")");
+			f();
+		}
 	}
 
 	/**
@@ -156,20 +189,39 @@ $(function() {
 			$pDiv.css("top",positions.height + "px");
 			$pDiv.css("left",positions.width + "px");
 
-			$pDiv.appendTo(this.GAME_DIV);
+			$pDiv.appendTo(this.GAME_DIV).hide().fadeIn();
 		}
-
-		this.AnimateWalk(this.PLAYERS[0],8,8);
 	}
 
 	Gameanite.prototype.AnimateWalk = function(player,newX,newY){
-
+			var Tself = this;
 			player.posX = newX;
 			player.posY = newY;
 			var pos = this.CalculatePosition(player.posX,player.posY);
-			this.GAME_DIV.find("[data-playername='" + player.name + "']").animate({"top":pos.height+"pX","left":pos.width+"px"},function(){
-				
+			this.GAME_DIV.find("[data-playername='" + player.name + "']").animate({"top":pos.height+"pX","left":pos.width+"px"},1000,function(){
+				player.moves -=1;
+				if(player.moves == 0){
+					Tself.ShowCard(newX,newY);
+				}else{
+					Tself.MovePlayer();
+				}
 			});
+	}
+
+	Gameanite.prototype.MovePlayer = function(){
+
+		var pPosX = this.PLAYERS[this.CURRENTPLAYER].posX;
+		var pPosY = this.PLAYERS[this.CURRENTPLAYER].posY;
+		console.log("CARD [" + pPosY + "][" + pPosX + "]");
+		var nextX = this.CARDS[pPosY][pPosX].nextX;
+		var nextY = this.CARDS[pPosY][pPosX].nextY;
+		this.AnimateWalk(this.PLAYERS[this.CURRENTPLAYER],nextX,nextY);
+
+	}
+
+	Gameanite.prototype.SetMovingDistance = function(m){
+		this.PLAYERS[this.CURRENTPLAYER].moves = m;
+		this.MovePlayer();
 	}
 
 });
