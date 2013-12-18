@@ -15,11 +15,18 @@
 
 $(function() {
 
+  	var socket = io.connect();
+
 	var game = new Gameanite();
 	$('.create-game-form').submit(function(e){
 		e.preventDefault();
 
 		ReadFile();
+		var inputName = $('.gameName').val();
+		socket.emit('create-room',{
+			roomName: inputName
+		})
+
 	});
 
 	$('.MOVE').on('click',function(){
@@ -223,5 +230,13 @@ $(function() {
 		this.PLAYERS[this.CURRENTPLAYER].moves = m;
 		this.MovePlayer();
 	}
+
+
+	socket.on('connected', function (data) {
+    	console.log(data);
+    	
+  	});
+
+
 
 });
