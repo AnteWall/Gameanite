@@ -21,6 +21,7 @@ Changelog
   - "Functional" Game
   - Socket Works with Android App
   - Current Player List
+
 #####0.1:
   - Started working on Gameanite Class
 
@@ -39,7 +40,7 @@ Gameanight uses a number of open source projects to work properly:
 
 * [node.js] - evented I/O for the backend
 * [Express] - fast node.js network app framework
-* [Twitter Bootstrap] - great UI boilerplate for modern web apps]
+* [Twitter Bootstrap] - great UI boilerplate for modern web apps
 * [jQuery] - Javascript Framework 
 
 
