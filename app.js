@@ -35,7 +35,7 @@ var io = require('socket.io').listen(http.createServer(app).listen(app.get('port
 }));
 
 var games = {};
-var players = [];
+var players = {};
 
 io.set('log level', 3);
 
@@ -52,25 +52,45 @@ io.sockets.on('connection',function(socket){
 		socket.emit('gameList',games);
 	});
 
-	socket.on('create-user',function(data){
-		socket.room = data.roomName;
-		players.push(data.playerInfo);
+	socket.on('rollDice',function(data){
 
+		var server = games[data.clientRoomSocket];
+		io.sockets.socket(server.socketId).emit('player-roll',{
+			"roll":data.roll
+		});
+	})
 
+	socket.on('clientAdd',function(data){
+		socket.room = data.clientRoom;
+		players[socket] = {
+			"name":data.clientName,
+			"color":data.clientColor,
+		};
 
+		var server = games[data.clientRoomSocket];
+
+		io.sockets.socket(server.socketId).emit('create-player',{
+			"userName":data.clientName,
+			"userColor":data.clientColor
+		});
 
 	});
 
+	socket.on('client-room',function(data){
+		console.log("GOT CLIENT ROOM REQUEST:");
+		console.log(data);
+	})
 
 	socket.on('create-room',function(data){
 		console.log("Creating Room!");
 		games[socket.id] = {
-			roomName :data.roomName						
+			roomName :data.roomName,
+			socketId: socket.id
 		};
 		console.log(games);
 		socket.join(data.roomName);
 		socket.isRoomGame = data.roomName;
-		socket.emit('created-room',{status:"OK"});
+		io.sockets.emit('gameList',games);
 
 	});
 
@@ -79,6 +99,7 @@ io.sockets.on('connection',function(socket){
 			console.log("GameClient Disconnected: "+socket.isRoomGame);
 			io.sockets["in"](socket.isRoomGame).emit('game-disconnect',{message:"GameClient Disconnected:", status:"Error"});
 			delete games[socket.id];
+			io.sockets.emit('gameList',games);
 		}
 	});
 

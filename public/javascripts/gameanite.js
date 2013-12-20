@@ -50,10 +50,11 @@ $(function() {
 	*	@param {int} y - StartPosition y-axis
 	*   @return {Player} - Returns Player Created
 	*/
-	function Player(name,x,y){
+	function Player(name,x,y,color){
 		this.name = name;
 		this.posX = x;
 		this.posY = y;
+		this.color = color;
 		this.moves;
 		return this;
 	}
@@ -97,14 +98,19 @@ $(function() {
 		console.log(this.CARDS);
 		this.GAME_DIV.prepend($table);
 
-		this.PLAYERS.push(new Player("Ante",this.START_X,this.START_Y));
+		//this.PLAYERS.push(new Player("Ante",this.START_X,this.START_Y));
 
-		this.DrawPlayers();
+		//this.DrawPlayers();
 
 		$('.dark-bg').fadeOut(1000,function(){
 			this.remove();
 			
 		})
+	}
+
+	Gameanite.prototype.AddPlayer = function(name,color){
+		this.PLAYERS.push(new Player(name,this.START_X,this.START_Y,color));
+		this.DrawPlayers();
 	}
 
 	Gameanite.prototype.ParseCards = function(json){
@@ -188,6 +194,7 @@ $(function() {
 	*	Draw Player from startposition
 	*/
 	Gameanite.prototype.DrawPlayers = function(){
+		$('.player').remove();
 		for(var i = 0; i < this.PLAYERS.length; i++){
 			var positions = this.CalculatePosition(this.PLAYERS[i].posX,this.PLAYERS[i].posY);
 
@@ -195,7 +202,7 @@ $(function() {
 
 			$pDiv.css("top",positions.height + "px");
 			$pDiv.css("left",positions.width + "px");
-
+			$pDiv.css('background',this.PLAYERS[i].color);
 			$pDiv.appendTo(this.GAME_DIV).hide().fadeIn();
 		}
 	}
@@ -235,6 +242,15 @@ $(function() {
 	socket.on('connected', function (data) {
     	console.log(data);
     	
+    	socket.on('create-player',function(data){
+    		console.log(data);
+    		game.AddPlayer(data.userName,data.userColor);
+    	});
+
+    	socket.on('player-roll',function(data){
+    		game.SetMovingDistance(data.roll);
+    	});
+
   	});
 
 
