@@ -12,11 +12,15 @@ Gameanight creates a gameboard using your custom JSON file, creates a gameroom w
 Version
 ----
 
-###0.1
+###0.2
 
 
 Changelog
 -----------
+#####0.2:
+  - "Functional" Game
+  - Socket Works with Android App
+  - Current Player List
 #####0.1:
   - Started working on Gameanite Class
 
@@ -38,12 +42,18 @@ Gameanight uses a number of open source projects to work properly:
 * [Twitter Bootstrap] - great UI boilerplate for modern web apps]
 * [jQuery] - Javascript Framework 
 
+
+Requirements
+--------------
+* [node.js] - Version 0.10.*
+
 Installation
 --------------
-Comming....
+Git clone this repository and move to directory
 
 ```sh
-node app
+npm install
+node app.js
 ```
 
 Custom JSON Example

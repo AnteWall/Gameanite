@@ -70,7 +70,7 @@ table{
 	-webkit-border-radius: 25px;
 	border-radius: 25px;
 }
-.card{
+/*.card{
 	margin: 100px auto;
 	width: 250px;
 	height: 350px;
@@ -92,4 +92,88 @@ table{
 	min-height: 255px;
 	max-height: 255px;
 	padding: 10px;
+}*/
+.card{
+	width: 300px;
+	height: 400px;
+	background-color: white;
+	-moz-border-radius: 15px;
+	border-radius: 15px;
+	margin: 50px auto;
+}
+.card p.subject{
+	font-weight: bold;
+	text-align: center;
+	font-size: 24pt;
+	color: white;
+	background-color: #FFBB33;
+		-moz-border-radius: 15px 15px 0 0;
+	border-radius: 15px 15px 0 0 ;
+}
+.card p.desc{
+	padding: 10px;
+}
+.card .card-info{
+	height: 350px;
+	background-color: #eee;
+	-moz-border-radius: 15px 15px 0 0;
+	border-radius: 15px 15px 0 0 ;
+	border-bottom: 1px solid #cfcfcf;
+}
+.card button{
+	-moz-border-radius: 5px;
+	border-radius: 5px;
+	cursor: pointer;
+	padding: 10px 20px;
+	margin: 5px 115px;
+	color: white;
+}
+.card-info p.dice{
+	text-align: center;
+	padding: 10px;
+}
+.card-info select{
+	padding: 10px;
+	margin: 5px 20px;
+	width: 260px;
+}
+
+
+/*
+*	PLAYER SCREEN
+*
+*/
+.players-screen{
+	width: 300px;
+	background-color: black;
+	position: fixed;
+	top: 0;
+	right: 0;
+	height: 100%;
+}
+.players-screen ul.player-list{
+	list-style: none;
+	padding: 0;
+	margin: 10px 0;
+}
+.players-screen ul.player-list li{
+	color: white;
+	padding: 10px;
+}
+.players-screen ul.player-list li:nth-child(odd){
+	background-color: #202020;
+}
+.players-screen ul.player-list li .player-color{
+	float:left;
+	width: 20px;
+	height: 20px;
+	background-color: gray;
+	border: 1px solid #AAA;
+}
+.players-screen ul.player-list li p.name{
+	margin: 0;
+	margin-left: 30px;
+}
+.players-screen ul.player-list li.current-player{
+	background-color: #FFBB33!important;
 }

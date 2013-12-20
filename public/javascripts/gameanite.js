@@ -33,6 +33,10 @@ $(function() {
 		game.SetMovingDistance(1);
 	});
 
+	$('.NP').on('click',function(){
+    	game.AddPlayer("Test"+Math.random(),"blue");
+	});
+
 	function ReadFile(){
 		var file = $('.gameUpload').prop('files')[0];
 		var reader = new FileReader();
@@ -83,6 +87,35 @@ $(function() {
 		this.nextY = nY;
 		this.function = func
 	}
+
+	Gameanite.prototype.DrawGameField = function(){
+
+		for(var y = 0; y < GAME_ROWS; y++){
+			for(var x = 0; x < GAME_COLUMS; x++){
+				if(this.CARDS[y][x] != null){
+					this.GAME_DIV.find("#x"+x+"y"+y).css("background","green");
+				}
+			}
+		}
+
+	}
+
+	Gameanite.prototype.NextPlayer = function(){
+		this.CURRENTPLAYER += 1;
+		if(this.CURRENTPLAYER > this.PLAYERS.length - 1){
+			this.CURRENTPLAYER = 0;
+		}
+		this.SetCurrentPlayerInList();
+	}
+
+	Gameanite.prototype.SetCurrentPlayerInList = function(){
+
+		$('ul.player-list li').removeClass('current-player');
+
+		$('.player-list').find("[data-player='" + this.PLAYERS[this.CURRENTPLAYER].name + "']").addClass('current-player');
+
+	}
+
 	Gameanite.prototype.CreateGameField = function(){
 
 		var $table = $('<table>',{class:"game-field-table"});
@@ -95,9 +128,9 @@ $(function() {
 			}
 			$tr.appendTo($table);
 		}
-		console.log(this.CARDS);
 		this.GAME_DIV.prepend($table);
 
+		this.DrawGameField();
 		//this.PLAYERS.push(new Player("Ante",this.START_X,this.START_Y));
 
 		//this.DrawPlayers();
@@ -110,7 +143,9 @@ $(function() {
 
 	Gameanite.prototype.AddPlayer = function(name,color){
 		this.PLAYERS.push(new Player(name,this.START_X,this.START_Y,color));
+		this.AddPlayerToPlayerScreen(name,color);
 		this.DrawPlayers();
+		this.SetCurrentPlayerInList();
 	}
 
 	Gameanite.prototype.ParseCards = function(json){
@@ -121,8 +156,37 @@ $(function() {
 		})
 	}
 
+	Gameanite.prototype.AddPlayerToPlayerScreen = function(name,color){
+		$color = $('<div>',{class:"player-color"}).css("background-color",color);
+		$pname = $('<p>',{class:"name"}).text(name);
+		$li = $('<li>',{"data-player":name});
+
+		$color.appendTo($li);
+		$pname.appendTo($li);
+		$li.appendTo($('.player-list'));
+	}
+
 	Gameanite.prototype.ShowCard = function(x,y){
+		var Tself = this;
+
 		var card = this.CARDS[y][x];
+		var $bg = $('<div>',{"class":"dark-bg"});
+
+		var $card = $('<div>',{"class":"card"});
+
+		var $cardinfo = $('<div>',{'class':'card-info'});
+
+		var $cardSubject = $('<p>',{'class':'subject'}).text(card.Title);
+		$cardSubject.appendTo($cardinfo);
+
+		var $cardDesc = $('<p>',{'class':'desc'}).text(card.Description);
+		$cardDesc.appendTo($cardinfo);
+
+		$cardinfo.appendTo($card);
+
+		var $button = $('<button>',{'text':"Close",class:"btn btn-danger"});
+		
+		/*var card = this.CARDS[y][x];
 
 		$darkBG = $('<div>',{class:"dark-bg"});
 		$card = $('<div>',{class:"card"});
@@ -132,18 +196,16 @@ $(function() {
 
 		$closeBtn = $('<button>',{class:"btn btn-danger btn-block close-btn-card"}).text("Close");
 
-		$closeBtn.on('click',function(){
+		*/
+		$button.on('click',function(){
 			$('.card').fadeOut(300,function(){
 				$('.dark-bg').remove();
+				Tself.NextPlayer();
 			})
 		});
-
-		$title.appendTo($card);
-		$desc.appendTo($card);
-		$closeBtn.appendTo($card);
-
-		$card.appendTo($darkBG);
-		$darkBG.appendTo(this.GAME_DIV);
+		$button.appendTo($card);
+		$card.appendTo($bg);
+		$bg.appendTo(this.GAME_DIV);
 		console.log(card.function);
 		if(card.function != undefined){
 			var f = eval("(" + card.function + ")");
@@ -240,10 +302,8 @@ $(function() {
 
 
 	socket.on('connected', function (data) {
-    	console.log(data);
     	
     	socket.on('create-player',function(data){
-    		console.log(data);
     		game.AddPlayer(data.userName,data.userColor);
     	});
 
