@@ -74,7 +74,7 @@ $(function() {
 		this.PLAYER_W = 20;
 		this.PLAYER_GROUPS = [];
 		this.GAME_ROWS = 0;
-		this.GAME_COLUMS = 0;
+		this.GAME_COLUMNS = 0;
 		this.CARDS = [];
 		this.CURRENTPLAYER = 0;
 	}
@@ -89,9 +89,8 @@ $(function() {
 	}
 
 	Gameanite.prototype.DrawGameField = function(){
-
 		for(var y = 0; y < GAME_ROWS; y++){
-			for(var x = 0; x < GAME_COLUMS; x++){
+			for(var x = 0; x < GAME_COLUMNS; x++){
 				if(this.CARDS[y][x] != null){
 					this.GAME_DIV.find("#x"+x+"y"+y).css("background","green");
 				}
@@ -119,10 +118,9 @@ $(function() {
 	Gameanite.prototype.CreateGameField = function(){
 
 		var $table = $('<table>',{class:"game-field-table"});
-
 		for(var y = 0; y < GAME_ROWS; y++){
 			var $tr = $('<tr>');
-			for(var x = 0; x < GAME_COLUMS; x++){
+			for(var x = 0; x < GAME_COLUMNS; x++){
 				var $td = $('<td>',{"id":"x"+x+"y"+y});
 				$td.appendTo($tr);
 			}
@@ -206,7 +204,6 @@ $(function() {
 		$button.appendTo($card);
 		$card.appendTo($bg);
 		$bg.appendTo(this.GAME_DIV);
-		console.log(card.function);
 		if(card.function != undefined){
 			var f = eval("(" + card.function + ")");
 			f();
@@ -223,7 +220,7 @@ $(function() {
 		var json = $.parseJSON(jsonFile.currentTarget.result);
 		var g = json["Gameanite"];
 		GAME_ROWS = g["Info"]["GAME_ROWS"];
-		GAME_COLUMS = g["Info"]["GAME_COLUMS"];
+		GAME_COLUMNS = g["Info"]["GAME_COLUMNS"];
 		this.START_X = g["Info"]["START_X"];
 		this.START_Y = g["Info"]["START_Y"];
 		this.CreateCardHolder();
@@ -234,7 +231,7 @@ $(function() {
 	Gameanite.prototype.CreateCardHolder = function(){
 		for(var y = 0; y < GAME_ROWS; y++){
 			this.CARDS[y] = [];
-			for(var x = 0; x < GAME_COLUMS; x++){
+			for(var x = 0; x < GAME_COLUMNS; x++){
 				this.CARDS[y][x] = null;
 			}
 		}
