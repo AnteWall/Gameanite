@@ -149,8 +149,8 @@ $(function() {
 	Gameanite.prototype.ParseCards = function(json){
 		var pThis = this;
 		$.each(json,function(){			
-			var c = new Card(this.POSX,this.POSY,this.Description,this.Title,this.NEXTX,this.NEXTY,this.FUNCTION);
-			pThis.CARDS[(this.POSY)][this.POSX] = c;
+			var c = new Card(this.PosX,this.PosY,this.Description,this.Title,this.NextX,this.NextY,this.function);
+			pThis.CARDS[(this.PosY)][this.PosX] = c;
 		})
 	}
 
