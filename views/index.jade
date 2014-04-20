@@ -4,20 +4,21 @@ block content
     .dark-bg
         .container
             #lobby
-                h1 Gameanite
+                h1.game-font Gameanite
                 hr
-                .col-md-3
+                .create-lobby
                     form(class="create-game-form",role="form")
-                        .form-group
+                        fieldset.form-group
                             label(for="gameName") Game Name
                             input(type="text", name="gameName", class="gameName form-control",required="required")            
-                        .form-group
+                        fieldset.form-group
                             label(for="gameUpload") Upload Gamefile
                             input(type="file", name="gameUpload", class="gameUpload form-control", required="required")      
-                        button(type="submit", class="btn btn-primary create-game-btn") Create Game
+                        button(type="submit",class="game-font") Create Game
     .gameanite-wrapper
-    button.btn-primary.MOVE Move 1
-    button.btn-primary.NP New Player
+    .debug-btns
+        button.btn-primary.MOVE Move 1
+        button.btn-primary.NP New Player
 
     .players-screen
         ul.player-list

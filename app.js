@@ -9,13 +9,19 @@ var methodOverride = require('method-override');
 var app            = express();
 var routes         = require('./routes');
 var http           = require('http');
+var sass           = require('node-sass');
 
 
 app.set('view engine', 'jade');
-app.use(express.static(__dirname + '/public')); 	// set the static files location /public/img will be /img for users
 app.use(morgan('dev')); 					// log every request to the console
 app.use(bodyParser()); 						// pull information from html in POST
 app.use(methodOverride()); 					// simulate DELETE and PUT
+app.use(sass.middleware({
+    src: __dirname + '/sass',
+    dest: __dirname + '/public',
+    debug: true
+}));
+app.use(express.static(__dirname + '/public')); 	// set the static files location /public/img will be /img for users
 
 console.log('Server Started!'); 			// shoutout to the user
 

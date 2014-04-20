@@ -240,11 +240,13 @@ $(function() {
 	*	Calculate position of player
 	*	
 	*	@param {Player} player - PlayerClass
-	*	@returns {json} - JSON with height and width
+	*	@returns {{height: number, width: number}} - JSON with height and width
 	*/
 	Gameanite.prototype.CalculatePosition = function(x,y){
-		var width = ( x * this.CELL_W ) + (this.CELL_W/2) - (this.PLAYER_W / 2);
-		var height = ( y * this.CELL_H ) + (this.CELL_H/2) - (this.PLAYER_H / 2);
+        var borderH = 2*y;
+        var borderW = 2*x;
+		var width = ( x * this.CELL_W ) + (this.CELL_W/2) - (this.PLAYER_W / 2) + borderW;
+		var height = ( y * this.CELL_H ) + (this.CELL_H/2) - (this.PLAYER_H / 2) + borderH;
 
 		return { "height": height, "width": width };
 	}

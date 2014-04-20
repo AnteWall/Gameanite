@@ -1,179 +1,161 @@
-*{
-	border: none;
-	margin: none;
-	padding: none;
-}
+* {
+  border: none;
+  margin: 0;
+  padding: 0; }
+
+.game-font {
+  font-family: 'Orbitron', sans-serif; }
+
 body {
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
-}
+  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif; }
 
 a {
-  color: #00B7FF;
-}
-table{
-	border-spacing: 0!important;
-}
+  color: #00B7FF; }
 
-.dark-bg{
-	background: rgba(0,0,0,.8);
-	width: 100%;
-	height: 100%;
-	position: fixed;
-	top: 0;
-	left: 0;
-}
-#lobby{
-	margin-top: 100px;
-	min-height: 500px;
-	background-color: white;
-	-webkit-border-radius: 5px;
-	border-radius: 5px;
-	-moz-box-shadow: 0 0 5px #888;
-	-webkit-box-shadow: 0 0 5px#888;
-	box-shadow: 0 0 5px #888;
-	padding: 20px;
-	display: block;
-	clear: both;
-}
-#lobby input{
-	padding: 5px;
-	border: 1px solid #cfcfcf;
-	-webkit-border-radius: 5px;
-	border-radius: 5px;
-	color: #606060;
-}
-.gameanite-wrapper{
-	width: 5000px;
-}
-.game-field-table{
-	border-spacing: 0!important;
-	table-layout:fixed;
-	display: block;
-}
-.game-field-table tr{
+table {
+  border-spacing: 0 !important; }
 
-}
-.game-field-table td{
-	height: 40px;
-	width: 40px;
-	border: 1px solid #000;
-	background-color: #505050;
-	display: inline-block;
-}
-.player{
-	position: fixed;
-	top: 0;
-	left: 0;
-	background: black;
-	width: 20px;
-	height: 20px;
-	-webkit-border-radius: 25px;
-	border-radius: 25px;
-}
-/*.card{
-	margin: 100px auto;
-	width: 250px;
-	height: 350px;
-	background: white;
-	-webkit-border-radius: 5px;
-	border-radius: 5px;
+.dark-bg {
+  background: rgba(0, 0, 0, 0.8);
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  top: 0;
+  left: 0; }
 
-}
-.card p.title{
-	-webkit-border-radius: 5px 5px 0 0;
-	border-radius: 5px 5px 0 0;
+#lobby {
+  min-height: 400px;
+  max-width: 700px;
+  margin: 100px auto;
+  background-color: #3b3b3b;
+  display: block;
+  clear: both; }
+  #lobby h1 {
+    padding: 20px;
+    color: #282828;
+    background-color: #505050;
+    font-weight: bold;
+    text-shadow: 0px 1px 0px #6f7489; }
+  #lobby .create-lobby label {
+    color: #000000;
+    font-weight: bold;
+    text-shadow: 0px 1px 0px #616161;
+    display: block;
+    padding: 20px;
+    font-size: 16pt; }
+  #lobby .create-lobby input {
+    margin: 0 20px;
+    padding: 5px;
+    border: 1px solid #cfcfcf;
+    color: #606060; }
+    #lobby .create-lobby input[type="text"] {
+      min-width: 250px; }
+    #lobby .create-lobby input[type="file"] {
+      min-width: 250px; }
+  #lobby .create-lobby button {
+    margin: 20px;
+    padding: 5px 10px;
+    font-size: 12pt;
+    text-shadow: 0px 1px 0px #616161; }
 
-	font-weight: bold;
-	text-align: center;
-	padding: 10px;
-	background: #cfcfcf;	
-}
-.card p.desc{
-	min-height: 255px;
-	max-height: 255px;
-	padding: 10px;
-}*/
-.card{
-	width: 300px;
-	height: 400px;
-	background-color: white;
-	-moz-border-radius: 15px;
-	border-radius: 15px;
-	margin: 50px auto;
-}
-.card p.subject{
-	font-weight: bold;
-	text-align: center;
-	font-size: 24pt;
-	color: white;
-	background-color: #FFBB33;
-		-moz-border-radius: 15px 15px 0 0;
-	border-radius: 15px 15px 0 0 ;
-}
-.card p.desc{
-	padding: 10px;
-}
-.card .card-info{
-	height: 350px;
-	background-color: #eee;
-	-moz-border-radius: 15px 15px 0 0;
-	border-radius: 15px 15px 0 0 ;
-	border-bottom: 1px solid #cfcfcf;
-}
-.card button{
-	-moz-border-radius: 5px;
-	border-radius: 5px;
-	cursor: pointer;
-	padding: 10px 20px;
-	margin: 5px 115px;
-	color: white;
-}
-.card-info p.dice{
-	text-align: center;
-	padding: 10px;
-}
-.card-info select{
-	padding: 10px;
-	margin: 5px 20px;
-	width: 260px;
-}
+.gameanite-wrapper {
+  width: 5000px; }
 
+.game-field-table {
+  border-spacing: 0 !important;
+  position: absolute;
+  display: block; }
+  .game-field-table tr {
+    height: 40px;
+    width: 40px;
+    border: 1px solid #000;
+    background-color: #505050; }
+  .game-field-table td {
+    height: 40px;
+    width: 40px;
+    border: 1px solid #000;
+    background-color: #505050;
+    display: inline-block; }
 
-/*
-*	PLAYER SCREEN
-*
-*/
-.players-screen{
-	width: 300px;
-	background-color: black;
-	position: fixed;
-	top: 0;
-	right: 0;
-	height: 100%;
-}
-.players-screen ul.player-list{
-	list-style: none;
-	padding: 0;
-	margin: 10px 0;
-}
-.players-screen ul.player-list li{
-	color: white;
-	padding: 10px;
-}
-.players-screen ul.player-list li:nth-child(odd){
-	background-color: #202020;
-}
-.players-screen ul.player-list li .player-color{
-	float:left;
-	width: 20px;
-	height: 20px;
-	background-color: gray;
-	border: 1px solid #AAA;
-}
-.players-screen ul.player-list li p.name{
-	margin: 0;
-	margin-left: 30px;
-}
-.players-screen ul.player-list li.current-player{
-	background-color: #FFBB33!important;
-}
+.player {
+  position: relative;
+  top: 0;
+  left: 0;
+  background: black;
+  width: 20px;
+  height: 20px;
+  -webkit-border-radius: 25px;
+  border-radius: 25px; }
+
+.card {
+  width: 300px;
+  height: 400px;
+  background-color: white;
+  -moz-border-radius: 15px;
+  border-radius: 15px;
+  margin: 50px auto; }
+  .card p.subject {
+    font-weight: bold;
+    text-align: center;
+    font-size: 24pt;
+    color: white;
+    background-color: #FFBB33;
+    -moz-border-radius: 15px 15px 0 0;
+    border-radius: 15px 15px 0 0; }
+  .card p.desc {
+    padding: 10px; }
+  .card .card-info {
+    height: 350px;
+    background-color: #eee;
+    -moz-border-radius: 15px 15px 0 0;
+    border-radius: 15px 15px 0 0;
+    border-bottom: 1px solid #cfcfcf; }
+  .card button {
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+    cursor: pointer;
+    padding: 10px 20px;
+    margin: 5px 115px;
+    color: white; }
+
+.card-info p.dice {
+  text-align: center;
+  padding: 10px; }
+.card-info select {
+  padding: 10px;
+  margin: 5px 20px;
+  width: 260px; }
+
+.players-screen {
+  width: 300px;
+  background-color: black;
+  position: fixed;
+  top: 0;
+  right: 0;
+  height: 100%; }
+  .players-screen ul.player-list {
+    list-style: none;
+    padding: 0;
+    margin: 10px 0; }
+    .players-screen ul.player-list li {
+      color: white;
+      padding: 10px; }
+      .players-screen ul.player-list li:nth-child(odd) {
+        background-color: #202020; }
+      .players-screen ul.player-list li .player-color {
+        float: left;
+        width: 20px;
+        height: 20px;
+        background-color: gray;
+        border: 1px solid #AAA; }
+      .players-screen ul.player-list li p.name {
+        margin: 0;
+        margin-left: 30px; }
+      .players-screen ul.player-list li.current-player {
+        background-color: #FFBB33 !important; }
+
+.debug-btns {
+  z-index: 2000;
+  position: fixed;
+  bottom: 20px;
+  left: 20xp; }
